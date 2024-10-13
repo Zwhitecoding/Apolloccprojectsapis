@@ -208,7 +208,9 @@ const startServer = async () => {
   app.get('/api', (req, res) => {
     res.json(apiRoutes);
   });
-
+app.use((req, res) => {
+    res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
+});
   function startBot() {
     const child = spawn("node", ["--trace-warnings", "--async-stack-traces", ""], {
       cwd: __dirname,
