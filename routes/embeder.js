@@ -18,6 +18,12 @@ module.exports.onAPI = (req, res) => {
     return res.status(400).json({ error: 'URL and name are required' });
   }
 
+  const lowerName = name.toLowerCase();
+
+  if (lowerName === 'index' || lowerName === 'docs') {
+    return res.status(400).json({ error: 'Sorry, this name has been refused. Please choose another name.' });
+  }
+
   const embedHtml = `
 <!DOCTYPE html>
 <html lang="en">
@@ -89,9 +95,9 @@ module.exports.onAPI = (req, res) => {
 </html>`;
 
   const fileName = `${name.toLowerCase().replace(/\s+/g, '-')}.html`;
-  const filePath = path.join(__dirname, 'public', 'cc', fileName);
+  const filePath = path.join(__dirname, 'public', fileName);
 
-  fs.mkdirSync(path.join(__dirname, 'public', 'cc'), { recursive: true });
+  fs.mkdirSync(path.join(__dirname, 'public'), { recursive: true });
 
   fs.writeFile(filePath, htmlContent, (err) => {
     if (err) {
@@ -99,6 +105,6 @@ module.exports.onAPI = (req, res) => {
     }
 
     const host = req.get('host');
-    return res.json({ success: true, filePath: `https://${host}/cc/${fileName}` });
+    return res.json({ success: true, filePath: `https://${host}/${fileName}` });
   });
 };
