@@ -18,7 +18,7 @@ module.exports.onAPI = async (req, res) => {
     }
 
     try {
-        const response = await axios.get(`https://joncll.serv00.net/gemini.php?ask=${encodeURIComponent(ask)}&imgurl=${encodeURIComponent(photoUrl)}`);
+        const response = await axios.get(`http://nova.hidencloud.com:25588/gemini?ask=${encodeURIComponent(ask)}&imgurl=${encodeURIComponent(photoUrl)}`);
         const data = response.data;
 
         if (data && data.vision) {
