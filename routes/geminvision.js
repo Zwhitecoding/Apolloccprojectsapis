@@ -1,0 +1,38 @@
+const axios = require('axios');
+
+module.exports.routes = {
+    name: "Gemini Vision",
+    desc: "Analyze an image by providing its URL and a question. It returns a vision based on the image.",
+    category: "AI TOOLS",
+    usages: "/api/gemini",
+    query: "?ask=hi&imgurl=https://files.catbox.moe/km22ta.jpg",
+    method: "get",
+};
+
+module.exports.onAPI = async (req, res) => {
+    const ask = req.query.ask || req.body.ask;
+    const photoUrl = req.query.imgurl || req.body.imgurl;
+
+    if (!ask || !photoUrl) {
+        return res.status(400).json({ error: 'Please provide both "ask" and "imgurl" parameters.' });
+    }
+
+    try {
+        const response = await axios.get(`https://joncll.serv00.net/gemini.php?ask=${encodeURIComponent(ask)}&imgurl=${encodeURIComponent(photoUrl)}`);
+        const data = response.data;
+
+        if (data && data.vision) {
+            return res.json({
+                status: true,
+                vision: data.vision
+            });
+        } else {
+            return res.status(500).json({
+                status: false,
+                error: 'Failed to retrieve vision from the Gemini API.'
+            });
+        }
+    } catch (error) {
+        return res.status(500).json({ status: false, error: 'An error occurred while processing your request.' });
+    }
+};
