@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JONELL HUTCHIN MAGALLANES PORTFOLIO (API)</title>
+    <meta property="og:description" content="Info About Jonell Hutchins Magallanes and REST API EXPLORER">
+    <meta property="og:image" content="https://graph.facebook.com/100036956043695/picture?width=720&height=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662">
+    <meta property="og:url" content="https://graph.facebook.com/100036956043695/picture?width=720&height=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="https://files.catbox.moe/kdqa0t.png" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        @keyframes popUp {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .pop-up {
+            opacity: 0;
+            animation: popUp 0.5s forwards;
+        }
+
+        .social-icon {
+            width: 30px;
+            height: 30px;
+            background-size: cover;
+            display: inline-block; /* Ensure the icon displays as a block */
+        }
+
+        .fb {
+            background-image: url('https://files.catbox.moe/gl8yme.png');
+        }
+
+        .ig {
+            background-image: url('https://files.catbox.moe/69xtpa.png');
+        }
+
+        .gh {
+            background-image: url('https://files.catbox.moe/7sg4m9.png');
+        }
+
+        .capcut {
+            background-image: url('https://files.catbox.moe/t00kc8.png');
+        }
+
+        .tiktok {
+            background-image: url('https://files.catbox.moe/2ovs86.png');
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-b from-purple-600 to-blue-500 flex justify-center items-center h-screen overflow-hidden">
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden w-11/12 max-w-sm opacity-0 pop-up" id="container">
+        <div class="bg-purple-600 p-5 text-white text-center">
+            <img src="https://graph.facebook.com/100036956043695/picture?width=720&height=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662" alt="Profile Picture" class="w-24 h-24 rounded-full border-4 border-white mx-auto mb-2">
+            <h1 class="text-xl font-bold">Jonell Magallanes</h1>
+            <p class="mt-2 text-center">Philippines, Negros Occidental San Enrique</p>
+            <h2 class="text-lg mt-2 text-center">Current School: Lacarlota City College</h2>
+        </div>
+        <div class="p-5 text-center">
+            <p class="mt-4 text-sm">Hello there :></p>
+            <h2 class="text-lg font-semibold">Apk AM and Project</h2>
+            <div class="flex justify-around my-4">
+                <button onclick="redirectTo('https://www.mediafire.com/file/ot45ttry6ekgl36/After+Motion+CS+_9.9.99.999999.apk/file')" class="bg-transparent border-none cursor-pointer">
+                    <img src="https://files.catbox.moe/8gmanb.png" alt="After Motion CC+" class="w-12 h-12 rounded-full border-2 border-blue-500 hover:border-blue-700 transition duration-300">
+                </button>
+                <button onclick="redirectTo('https://www.mediafire.com/file/6ulb0hqai2buwcs/After+Effects+°KYUZO°+UNIQUE+(android+11)_3.9.1.apk/file')" class="bg-transparent border-none cursor-pointer">
+                    <img src="https://files.catbox.moe/iehay3.jpeg" alt="After Motion 3.9.1" class="w-12 h-12 rounded-full border-2 border-blue-500 hover:border-blue-700 transition duration-300">
+                </button>
+                <button onclick="redirectTo('https://appstate-getterjonellccproject.onrender.com/')" class="bg-transparent border-none cursor-pointer">
+                    <img src="https://files.catbox.moe/aj94sw.png" alt="Appstate Getter" class="w-12 h-12 rounded-full border-2 border-blue-500 hover:border-blue-700 transition duration-300">
+                </button>
+            </div>
+            <p class="mt-4 text-sm">Hobby</p>
+            <h2 class="text-lg font-semibold">Editing, Geometry Dash Player, Coder</h2>
+            <div class="flex justify-around my-4">
+                <a href="https://www.facebook.com/propertynilove.magallnes" class="social-icon fb" aria-label="Facebook"></a>
+                <a href="https://www.instagram.com/jonelledits10?igsh=YzljYTk1ODg3Zg==" class="social-icon ig" aria-label="Instagram"></a>
+                <a href="https://github.com/magallanes10" class="social-icon gh" aria-label="GitHub"></a>
+                <a href="https://mobile.capcutshare.com/s/Zs8rLcVUR/" class="social-icon capcut" aria-label="CapCut"></a>
+                <a href="https://tiktok.com/@jonell.magallanes10" class="social-icon tiktok" aria-label="TikTok"></a>
+            </div>
+            <div class="my-4">
+                <button onclick="redirectTo('https://m.me/propertynilove.magallnes')" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300">Message</button>
+                <button onclick="redirectTo('/docs.html')" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300">CC PROJECT API</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function redirectTo(url) {
+            window.location.href = url;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('container');
+            container.classList.remove('opacity-0');
+        });
+    </script>
+</body>
+
+</html>
