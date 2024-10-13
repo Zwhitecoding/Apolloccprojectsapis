@@ -3,7 +3,7 @@ const axios = require('axios');
 module.exports.routes = {
     name: "Gemini Vision",
     desc: "Analyze an image by providing its URL and a question. It returns a vision based on the image.",
-    category: "AI TOOLS",
+    category: "AI Tools",
     usages: "/api/gemini",
     query: "?ask=hi&imgurl=https://files.catbox.moe/km22ta.jpg",
     method: "get",
