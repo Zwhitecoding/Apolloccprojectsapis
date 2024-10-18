@@ -5,7 +5,8 @@ module.exports.routes = {
     name: "Pollination AI",
     desc: "Generate an image based on a prompt.",
     category: "AI IMAGE GENERATOR",
-    usages: "/api/imgen?prompt=tree",
+    query: "?prompt=tree",
+    usages: "/api/imgen",
     method: "get",
 };
 
