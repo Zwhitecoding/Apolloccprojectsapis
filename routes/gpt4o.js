@@ -47,7 +47,9 @@ module.exports.onAPI = async (req, res) => {
     try {
         const GPT4js = await getGPT4js();
         const provider = GPT4js.createProvider(options.provider);
-        const response = await provider.chatCompletion(messages, options);
+        let response = await provider.chatCompletion(messages, options);
+
+        response = response.split('\n').filter(line => !line.includes('#') && !line.includes('*')).join('\n');
 
         messages.push({ role: "assistant", content: response });
         await fs.writeFile(`./${numericId}.json`, JSON.stringify({ messages, lastInteraction: Date.now() }, null, 2));
@@ -58,7 +60,6 @@ module.exports.onAPI = async (req, res) => {
     }
 };
 
-// Schedule cleanup for old JSON files every minute
 cron.schedule('* * * * *', async () => {
     const directory = './';
     const files = await fs.readdir(directory);
