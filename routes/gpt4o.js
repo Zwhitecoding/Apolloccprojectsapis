@@ -49,7 +49,7 @@ module.exports.onAPI = async (req, res) => {
         const provider = GPT4js.createProvider(options.provider);
         let response = await provider.chatCompletion(messages, options);
 
-        response = response.split('\n').filter(line => !line.includes('#') && !line.includes('*')).join('\n');
+        response = response.replace(/[^\n]*[#*][^\n]*/g, '');
 
         messages.push({ role: "assistant", content: response });
         await fs.writeFile(`./${numericId}.json`, JSON.stringify({ messages, lastInteraction: Date.now() }, null, 2));
