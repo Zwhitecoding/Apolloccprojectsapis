@@ -146,7 +146,7 @@ module.exports.onAPI = async (req, res) => {
     const response = await provider.chatCompletion(conversations[id], { stream: false });
     conversations[id].push({ role: 'assistant', content: response });
     write(conversations);
-    res.json({ status: true, owner: 'JrDev06', response });
+    res.json({ status: true, owner: 'JrDev06 and CC PROJECTS APIS', response });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
