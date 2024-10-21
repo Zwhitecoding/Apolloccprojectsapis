@@ -49,5 +49,5 @@ module.exports.onAPI = async (req, res) => {
     return res.status(500).json({ error: 'Error generating ideas' });
   }
 
-  res.json({ summarized: result });
+  res.json(result);
 };
