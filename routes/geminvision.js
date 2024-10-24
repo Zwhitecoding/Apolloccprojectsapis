@@ -18,18 +18,18 @@ module.exports.onAPI = async (req, res) => {
     }
 
     try {
-        const response = await axios.get(`http://nova.hidencloud.com:25588/gemini?ask=${encodeURIComponent(ask)}&imgurl=${encodeURIComponent(photoUrl)}`);
+        const response = await axios.get(`http://de01.uniplex.xyz:5611/gemini?ask=${encodeURIComponent(ask)}&imgurl=${encodeURIComponent(photoUrl)}`);
         const data = response.data;
 
-        if (data && data.vision) {
+        if (data && data.imageResponse) {
             return res.json({
                 status: true,
-                vision: data.vision
+                vision: data.imageResponse
             });
         } else {
             return res.status(500).json({
                 status: false,
-                error: 'Failed to retrieve vision from the Gemini API.'
+                error: 'Failed to retrieve image response from the Gemini API.'
             });
         }
     } catch (error) {
