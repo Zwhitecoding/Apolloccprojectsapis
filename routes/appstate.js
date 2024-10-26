@@ -5,7 +5,7 @@ const router = express.Router();
 module.exports.routes = {
   name: "Appstate Getter",
   desc: "Get Session cookies of Facebook login using provided email and password",
-  category: "Tools",
+  category: "Authentication Tools",
   usages: "/api/appstate",
   query: "?e=&p=",
   method: "get",
