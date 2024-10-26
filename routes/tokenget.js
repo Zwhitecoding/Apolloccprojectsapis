@@ -8,7 +8,7 @@ module.exports.routes = {
   category: "Authentication Tools",
   usages: "/api/token",
   query: "?user=<username>&pass=<password>",
-  method: "post",
+  method: "get",
 };
 
 module.exports.onAPI = async (req, res) => {
