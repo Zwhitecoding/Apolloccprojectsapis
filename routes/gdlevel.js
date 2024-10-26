@@ -5,7 +5,7 @@ const router = express.Router();
 module.exports.routes = {
   name: "Geometry Dash Level Search ID",
   desc: "The details of a Geometry Dash level based on its ID",
-  category: "Gaming Tools",
+  category: "Geometry Dash",
   usages: "/api/gdlevel",
   query: "?id=110903207",
   method: "get",
