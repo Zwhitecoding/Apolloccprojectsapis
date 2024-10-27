@@ -1,10 +1,13 @@
 const express = require("express");
 const { upscale } = require("nayan-server");
+const fs = require("fs");
+const path = require("path");
+const axios = require("axios");
 const router = express.Router();
 
 module.exports.routes = {
   name: "Upscaler Image",
-  desc: "Upscales images using specified model chose 1 or 2",
+  desc: "Upscales images using specified model. Choose model 1 or 2.",
   category: "Tools",
   usages: "/api/upscale",
   query: "?url=https://files.catbox.moe/w5m8y3.jpg&model=1",
@@ -20,10 +23,17 @@ module.exports.onAPI = async (req, res) => {
 
   try {
     const data = await upscale(url, model);
-    const filteredData = {
-      image_url: data.image_url,
-    };
-    res.json(filteredData);
+    const response = await axios.get(data.image_url, { responseType: "arraybuffer" });
+    const tempFilePath = path.join(__dirname, "temp_upscaled_image.jpg");
+    fs.writeFileSync(tempFilePath, response.data);
+
+    res.sendFile(tempFilePath, (err) => {
+      if (err) {
+        res.status(500).json({ error: "File sending failed.", details: err.message });
+      } else {
+        fs.unlinkSync(tempFilePath);
+      }
+    });
   } catch (error) {
     res.status(500).json({ error: "Upscaling failed.", details: error.message });
   }
