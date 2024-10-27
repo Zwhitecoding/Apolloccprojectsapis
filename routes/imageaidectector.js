@@ -8,7 +8,7 @@ module.exports.routes = {
 };
 
 module.exports.onAPI = async (req, res) => {
-  const url = req.originalUrl.split('/api/cjoint?url=')[1];
+  const url = req.originalUrl.split('/api/aidec?url=')[1];
 
   if (!url) {
     return res.status(400).json({ error: "Please provide an image URL using the 'url' query parameter." });
