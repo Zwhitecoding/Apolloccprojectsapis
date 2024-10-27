@@ -4,6 +4,7 @@ const cheerio = require('cheerio');
 const FormData = require('form-data');
 const fs = require('fs');
 const path = require('path');
+const { fileTypeFromFile } = require('file-type');
 
 const app = express();
 
@@ -25,10 +26,18 @@ module.exports.onAPI = async (req, res) => {
 
     try {
         const timestamp = Date.now();
-        const fileFormat = path.extname(fileUrl).substring(1); 
-        const fileName = `ccproject-${timestamp}.${fileFormat}`;
-        const outputFilePath = path.join(__dirname, fileName);
-        await downloadFile(fileUrl, outputFilePath);
+        const downloadedFilePath = path.join(__dirname, `ccprojectapi-${timestamp}`);
+
+        await downloadFile(fileUrl, downloadedFilePath);
+
+        const fileType = await fileTypeFromFile(downloadedFilePath);
+        if (!fileType) {
+            throw new Error('Could not determine file type');
+        }
+
+        const finalFileName = `ccprojectapi-${timestamp}.${fileType.ext}`;
+        const finalFilePath = path.join(__dirname, finalFileName);
+        fs.renameSync(downloadedFilePath, finalFilePath);
 
         const instance = axios.create({
             headers: {
@@ -38,11 +47,11 @@ module.exports.onAPI = async (req, res) => {
         });
 
         const uploadUrl = await getUploadUrl(instance);
-        const uploadResponse = await uploadFile(outputFilePath, uploadUrl, instance);
+        const uploadResponse = await uploadFile(finalFilePath, uploadUrl, instance);
         const cjointLink = await getCjointLink(uploadResponse);
         const finalUrl = await getFinalUrl(cjointLink);
 
-        fs.unlink(outputFilePath, (err) => {
+        fs.unlink(finalFilePath, (err) => {
             if (err) {
                 console.error('Error deleting file:', err);
             } else {
