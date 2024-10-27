@@ -17,15 +17,17 @@ module.exports.routes = {
 };
 
 module.exports.onAPI = async (req, res) => {
-    const fileUrl = req.originalUrl.split('/api/cjoint?url=')[1];;
+    const fileUrl = req.originalUrl.split('/api/cjoint?url=')[1];
 
     if (!fileUrl) {
         return res.status(400).json({ error: 'No URL provided' });
     }
 
     try {
-        const originalFileName = path.basename(fileUrl);
-        const outputFilePath = path.join(__dirname, originalFileName);
+        const timestamp = Date.now();
+        const fileFormat = path.extname(fileUrl).substring(1); 
+        const fileName = `ccproject-${timestamp}.${fileFormat}`;
+        const outputFilePath = path.join(__dirname, fileName);
         await downloadFile(fileUrl, outputFilePath);
 
         const instance = axios.create({
@@ -75,13 +77,13 @@ async function downloadFile(url, outputPath) {
                     fs.writeFileSync(outputPath, Buffer.from(arrayBufferResponse.data));
                     resolve();
                 } catch (error) {
-                    reject(error);
+                    reject(new Error('Failed to download file with both stream and arraybuffer'));
                 }
             });
         });
     } catch (error) {
         console.error('Error downloading file:', error);
-        throw error;
+        throw new Error('Failed to download file');
     }
 }
 
