@@ -26,18 +26,18 @@ module.exports.onAPI = async (req, res) => {
 
     try {
         const timestamp = Date.now();
-        const downloadedFilePath = path.join(__dirname, `ccprojectapi-${timestamp}`);
+        const tempFilePath = path.join(__dirname, `ccproject-${timestamp}`);
 
-        await downloadFile(fileUrl, downloadedFilePath);
+        await downloadFile(fileUrl, tempFilePath);
 
-        const fileType = await fileTypeFromFile(downloadedFilePath);
+        const fileType = await fileTypeFromFile(tempFilePath);
         if (!fileType) {
             throw new Error('Could not determine file type');
         }
 
-        const finalFileName = `ccprojectapi-${timestamp}.${fileType.ext}`;
+        const finalFileName = `ccproject-${timestamp}.${fileType.ext}`;
         const finalFilePath = path.join(__dirname, finalFileName);
-        fs.renameSync(downloadedFilePath, finalFilePath);
+        fs.renameSync(tempFilePath, finalFilePath);
 
         const instance = axios.create({
             headers: {
@@ -98,7 +98,9 @@ async function downloadFile(url, outputPath) {
 
 async function uploadFile(filePath, uploadUrl, instance) {
     const formData = new FormData();
-    formData.append('USERFILE', fs.createReadStream(filePath));
+    formData.append('USERFILE', fs.createReadStream(filePath), {
+        filename: path.basename(filePath) // Ensures filename pattern for Cjoint
+    });
 
     const response = await instance.post(uploadUrl, formData, {
         headers: formData.getHeaders(),
