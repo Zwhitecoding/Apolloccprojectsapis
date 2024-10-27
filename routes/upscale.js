@@ -15,7 +15,7 @@ module.exports.routes = {
 };
 
 module.exports.onAPI = async (req, res) => {
-  const { url, model = "1" } = req.originalUrl.split('/api/upsce?url=&model=1')[1];;
+  const { url, model = "1" } = req.originalUrl.split('/api/upscale?url=&model=1')[1];;
   if (!url) {
     return res.status(400).json({ error: "Image URL is required." });
   }
