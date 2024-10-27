@@ -1,6 +1,31 @@
+module.exports.routes = {
+  name: "AI Image Detector",
+  desc: "Detects if an image is AI-generated or human-created",
+  category: "AI Tools",
+  usages: "/api/aidec",
+  query: "?url=",
+  method: "get",
+};
+
+module.exports.onAPI = async (req, res) => {
+  const url = req.originalUrl.split('/api/cjoint?url=')[1];
+
+  if (!url) {
+    return res.status(400).json({ error: "Please provide an image URL using the 'url' query parameter." });
+  }
+
+  try {
+    const result = await processImageFromURL(url);
+    res.json(result);
+  } catch (error) {
+    console.error("Error processing image:", error);
+    res.status(500).json({ error: "Error classifying image from URL." });
+  }
+};
+
+// Helper functions
 const axios = require("axios");
 const fs = require("fs");
-
 const HF_API_URL = "https://api-inference.huggingface.co/models/umm-maybe/AI-image-detector";
 const HF_API_TOKEN = "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";
 
@@ -55,28 +80,5 @@ async function processImageFromURL(url) {
     human: `${humanPercentage.toFixed(2)}%`,
     classification
   };
-}
-
-module.exports = {
-  name: "AI Image Detector",
-  category: "AI Tools",
-  description: "Detects if an image is AI-generated or human-created",
-  usage: "/api/aidec",
-  query: "?url=",
-  method: "GET",
-  onAPI: async (req, res) => {
- const url = req.originalUrl.split('/api/aidec?url=')[1];
-
-    if (!url) {
-      return res.status(400).json({ error: "Please provide an image URL using the 'url' query parameter." });
-    }
-
-    try {
-      const result = await processImageFromURL(url);
-      res.json(result);
-    } catch (error) {
-      console.error("Error processing image:", error);
-      res.status(500).json({ error: "Error classifying image from URL." });
-    }
-  }
-};
+      }
+  
