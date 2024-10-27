@@ -11,13 +11,13 @@ module.exports.routes = {
   name: "Cjoint Uploader",
   desc: "Uploads files to Cjoint and returns the shareable link",
   category: "File Management",
-  usages: "/cjoin",
-  query: "?url=<file-url>",
+  usages: "/api/cjoint",
+  query: "?url=",
   method: "get",
 };
 
 module.exports.onAPI = async (req, res) => {
-    const { url: fileUrl } = req.query;
+    const { url: fileUrl } = req.originalUrl.split('/api/cjoint?url=')[1];;;
 
     if (!fileUrl) {
         return res.status(400).json({ error: 'No URL provided' });
