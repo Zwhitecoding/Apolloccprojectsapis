@@ -1,7 +1,7 @@
 let menuVisible = false;
 
 document.addEventListener("DOMContentLoaded", () => {
-    fetch('/api')
+    fetch('/jonellmagallanes')
         .then(response => response.json())
         .then(data => {
             const apiList = document.getElementById('api-list');
