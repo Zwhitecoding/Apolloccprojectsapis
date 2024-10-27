@@ -4,7 +4,7 @@ const axios = require('axios');
 module.exports.routes = {
     name: "Google Drive Uploader File",
     desc: "Google Drive Uploader Tools using file link",
-    category: "Tools",
+    category: "File Management",
     usages: "/api/gdrive",
     query: "?url=",
     method: "get",
