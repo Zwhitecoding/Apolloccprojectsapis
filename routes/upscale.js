@@ -10,13 +10,12 @@ module.exports.routes = {
   desc: "Upscales images using specified model. Choose model 1 or 2.",
   category: "Tools",
   usages: "/api/upscale",
-  query: "?url=https://files.catbox.moe/w5m8y3.jpg&model=1",
+  query: "?url=&model=1",
   method: "get",
 };
 
 module.exports.onAPI = async (req, res) => {
-  const { url, model = "1" } = req.query;
-
+  const { url, model = "1" } = req.originalUrl.split('/api/upsce?url=&model=1')[1];;
   if (!url) {
     return res.status(400).json({ error: "Image URL is required." });
   }
