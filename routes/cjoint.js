@@ -4,7 +4,6 @@ const cheerio = require('cheerio');
 const FormData = require('form-data');
 const fs = require('fs');
 const path = require('path');
-const { fileTypeFromFile } = require('file-type');
 
 const app = express();
 
@@ -28,14 +27,13 @@ module.exports.onAPI = async (req, res) => {
         const timestamp = Date.now();
         const tempFilePath = path.join(__dirname, `ccproject-${timestamp}`);
 
-        await downloadFile(fileUrl, tempFilePath);
+        const fileType = await downloadFile(fileUrl, tempFilePath);
 
-        const fileType = await fileTypeFromFile(tempFilePath);
         if (!fileType) {
             throw new Error('Could not determine file type');
         }
 
-        const finalFileName = `ccproject-${timestamp}.${fileType.ext}`;
+        const finalFileName = `ccproject-${timestamp}.${fileType}`;
         const finalFilePath = path.join(__dirname, finalFileName);
         fs.renameSync(tempFilePath, finalFilePath);
 
@@ -75,16 +73,23 @@ async function getUploadUrl(instance) {
 async function downloadFile(url, outputPath) {
     try {
         const response = await axios.get(url, { responseType: 'stream' });
+        const contentType = response.headers['content-type'];
+        const fileExtension = mimeToExtension(contentType);
+
+        if (!fileExtension) {
+            throw new Error('Unsupported file type');
+        }
+
         const writer = fs.createWriteStream(outputPath);
         response.data.pipe(writer);
 
         return new Promise((resolve, reject) => {
-            writer.on('finish', resolve);
+            writer.on('finish', () => resolve(fileExtension));
             writer.on('error', async () => {
                 try {
                     const arrayBufferResponse = await axios.get(url, { responseType: 'arraybuffer' });
                     fs.writeFileSync(outputPath, Buffer.from(arrayBufferResponse.data));
-                    resolve();
+                    resolve(fileExtension);
                 } catch (error) {
                     reject(new Error('Failed to download file with both stream and arraybuffer'));
                 }
@@ -94,6 +99,20 @@ async function downloadFile(url, outputPath) {
         console.error('Error downloading file:', error);
         throw new Error('Failed to download file');
     }
+}
+
+function mimeToExtension(mimeType) {
+    const mimeMap = {
+        'image/jpeg': 'jpg',
+        'image/png': 'png',
+        'image/gif': 'gif',
+        'audio/mpeg': 'mp3',
+        'audio/wav': 'wav',
+        'video/mp4': 'mp4',
+        'application/pdf': 'pdf',
+        // Add other MIME types as needed
+    };
+    return mimeMap[mimeType] || null;
 }
 
 async function uploadFile(filePath, uploadUrl, instance) {
