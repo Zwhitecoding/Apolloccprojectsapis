@@ -7,31 +7,29 @@ const router = express.Router();
 
 module.exports.routes = {
   name: "Upscaler Image",
-  desc: "Upscales images using specified model. Choose model 1 or 2.",
+  desc: "Upscales images using default model 1.",
   category: "Tools",
   usages: "/api/upscale",
-  query: "?url=<encodedURL>&model=1",
+  query: "?url=",
   method: "get",
 };
 
 module.exports.onAPI = async (req, res) => {
-  let { url, model = "1" } = req.query;
+  const url = req.originalUrl.split('/api/upscale?url=')[1];
 
   if (!url) {
     return res.status(400).json({ error: "Image URL is required." });
   }
 
   try {
-    
-    url = decodeURIComponent(url);
+    const decodedUrl = decodeURIComponent(url);
+    const model = "1"; 
 
-
-    const data = await upscale(url, model);
+    const data = await upscale(decodedUrl, model);
     const response = await axios.get(data.image_url, { responseType: "arraybuffer" });
     const tempFilePath = path.join(__dirname, "temp_upscaled_image.jpg");
     fs.writeFileSync(tempFilePath, response.data);
 
-  
     res.sendFile(tempFilePath, (err) => {
       if (err) {
         res.status(500).json({ error: "File sending failed.", details: err.message });
