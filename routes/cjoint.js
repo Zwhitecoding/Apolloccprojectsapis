@@ -17,7 +17,7 @@ module.exports.routes = {
 };
 
 module.exports.onAPI = async (req, res) => {
-    const { url: fileUrl } = req.originalUrl.split('/api/cjoint?url=')[1];;;
+    const { url: fileUrl } = req.originalUrl.split('/api/cjoint?url=')[1];
 
     if (!fileUrl) {
         return res.status(400).json({ error: 'No URL provided' });
