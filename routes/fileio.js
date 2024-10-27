@@ -11,7 +11,7 @@ const uploadHeaders = { Accept: 'application/json, text/plain, */*' };
 module.exports.routes = {
   name: "Fileio Uploader",
   desc: "Uploads files to file.io from a given URL",
-  category: "Uploader file API",
+  category: "File Management",
   usages: "/api/fileio",
   query: "?url=",
   method: "get",
