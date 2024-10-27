@@ -12,7 +12,7 @@ module.exports.routes = {
   name: "Fileio Uploader",
   desc: "Uploads files to file.io from a given URL",
   category: "Tools",
-  usages: "/fileio",
+  usages: "/api/fileio",
   query: "?url=",
   method: "get",
 };
