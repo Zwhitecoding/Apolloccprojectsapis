@@ -7,10 +7,10 @@ const router = express.Router();
 
 module.exports.routes = {
   name: "Upscaler Image",
-  desc: "Upscales images using default model 1.",
+  desc: "To enhanced your images.",
   category: "Tools",
   usages: "/api/upscale",
-  query: "?url=",
+  query: "?url=https://files.catbox.moe/w5m8y3.jpg",
   method: "get",
 };
 
