@@ -205,7 +205,7 @@ app.get('/routes', (req, res) => {
 const startServer = async () => {
   await loadRoutes();
 
-  app.get('/api', (req, res) => {
+  app.get('/jonellmagallanes', (req, res) => {
     res.json(apiRoutes);
   });
 app.use((req, res) => {
