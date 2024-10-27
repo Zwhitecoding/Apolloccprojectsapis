@@ -59,12 +59,13 @@ async function processImageFromURL(url) {
 
 module.exports = {
   name: "AI Image Detector",
+  category: "AI Tools",
   description: "Detects if an image is AI-generated or human-created",
   usage: "/api/aidec",
-  query: "?url=https://files.catbox.moe/frpoga.jpg",
+  query: "?url=",
   method: "GET",
   onAPI: async (req, res) => {
-    const { url } = req.query;
+ const url = req.originalUrl.split('/api/aidec?url=')[1];
 
     if (!url) {
       return res.status(400).json({ error: "Please provide an image URL using the 'url' query parameter." });
