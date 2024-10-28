@@ -28,7 +28,6 @@ module.exports.onAPI = async (req, res) => {
         const parsedData = JSON.parse(data);
         messages = Array.isArray(parsedData.messages) ? parsedData.messages : [];
     } catch (error) {
-        console.warn(`No previous conversation found for ID: ${numericId}. Initializing new conversation.`);
         messages = [
             { role: "system", content: "You're a math teacher." },
         ];
