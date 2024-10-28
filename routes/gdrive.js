@@ -18,7 +18,7 @@ module.exports.onAPI = async (req, res) => {
     }
 
     try {
-        const response = await axios.get(`http://de01.uniplex.xyz:5611/api/upload?url=${url}`);
+        const response = await axios.get(`http://sgp1.hmvhostings.com:25622/api/upload?url=${url}`);
         res.send(response.data);
     } catch (error) {
         res.status(500).json({ error: 'An error occurred while processing your request' });
