@@ -18,7 +18,7 @@ module.exports.onAPI = async (req, res) => {
   }
 
   try {
-    const apiURL = `http://de01.uniplex.xyz:5611/uptime?url=${encodeURIComponent(url)}`;
+    const apiURL = `http://sgp1.hmvhostings.com:25622/uptime?url=${encodeURIComponent(url)}`;
     
     const response = await axios.get(apiURL);
     const data = response.data;
