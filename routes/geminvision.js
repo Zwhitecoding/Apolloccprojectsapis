@@ -18,7 +18,7 @@ module.exports.onAPI = async (req, res) => {
     }
 
     try {
-        const response = await axios.get(`http://de01.uniplex.xyz:5611/gemini?ask=${encodeURIComponent(ask)}&imgurl=${encodeURIComponent(photoUrl)}`);
+        const response = await axios.get(`http://sgp1.hmvhostings.com:25622/gemini?ask=${encodeURIComponent(ask)}&imgurl=${encodeURIComponent(photoUrl)}`);
         const data = response.data;
 
         if (data && data.imageResponse) {
