@@ -27,7 +27,7 @@ module.exports.onAPI = async (req, res) => {
 const axios = require("axios");
 const fs = require("fs");
 const HF_API_URL = "https://api-inference.huggingface.co/models/umm-maybe/AI-image-detector";
-const HF_API_TOKEN = "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";
+const HF_API_TOKEN = "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";
 
 async function classifyImage(filePath) {
   const imageData = fs.readFileSync(filePath);
