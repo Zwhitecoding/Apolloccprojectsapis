@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 module.exports.routes = {
-  name: "AI Flux Image Generator",
+  name: "Flux Image Generator",
   desc: "Generates images based on a prompt using the FLUX model.",
   category: "AI IMAGE GENERATOR",
   usages: "/api/flux",
