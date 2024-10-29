@@ -15,7 +15,7 @@ module.exports.routes = {
 };
 
 module.exports.onAPI = async (req, res) => {
-  const { url: imageUrl } = req.query;
+  const imageUrl = req.originalUrl.split('/api/emotiondetector?url=')[1];
 
   if (!imageUrl) {
     return res.status(400).json({ error: 'Image URL parameter is required' });
