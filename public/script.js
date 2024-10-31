@@ -1,5 +1,3 @@
-let menuVisible = false;
-
 document.addEventListener("DOMContentLoaded", () => {
     fetch('/jonellmagallanes')
         .then(response => response.json())
