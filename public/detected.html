@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifying Your Ip Unsual Activity CC PROJECTS APIS</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/2.8.2/alpine.js" defer></script>
+    <style>
+        .spin {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 h-screen flex items-center justify-center relative">
+    <div class="bg-white shadow-lg rounded-lg p-8 max-w-lg text-center">
+        <div class="mb-6 flex justify-center items-center space-x-2">
+            <span class="w-5 h-5 border-4 border-blue-500 border-t-transparent rounded-full spin"></span>
+            <h2 class="text-2xl font-bold text-gray-800">Unusual IP Activity Detected</h2>
+        </div>
+        <p class="text-gray-600 mb-4">Please wait as we verify your IP activity.</p>
+        <p class="text-gray-600 mb-2">Your IP is: <span id="user-ip" class="font-bold text-blue-600">0.0.0.0</span></p>
+        <p class="text-gray-600 mb-4">User Agent: <span id="user-agent" class="font-bold text-blue-600">Unknown</span></p>
+        <div id="countdown" class="text-4xl font-bold text-blue-600">30</div>
+        <p class="text-gray-500 mt-2">seconds remaining</p>
+    </div>
+
+    <div class="absolute bottom-4 w-full text-center text-sm text-black opacity-50 fade-in">
+        Owner of this Site: Jonell Magallanes
+    </div>
+
+    <script>
+        const ip = "192.168.1.1"; 
+        const userAgent = navigator.userAgent; 
+
+        document.getElementById("user-ip").textContent = ip;
+        document.getElementById("user-agent").textContent = userAgent;
+
+        let countdown = 30;
+        const countdownEl = document.getElementById("countdown");
+
+        const interval = setInterval(() => {
+            countdown--;
+            countdownEl.textContent = countdown;
+
+            if (countdown <= 0) {
+                clearInterval(interval);
+                window.location.href = "/docs.html";
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
