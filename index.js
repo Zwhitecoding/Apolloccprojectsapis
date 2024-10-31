@@ -6,6 +6,7 @@ const axios = require('axios');
 const compression = require('compression');
 const socketIo = require('socket.io');
 const rateLimit = require('express-rate-limit');
+const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 3000;
 const routesPath = path.join(__dirname, 'routes');
@@ -14,19 +15,19 @@ const requiredModules = new Set();
 const server = require('http').createServer(app);
 const io = socketIo(server);
 app.use(compression());
+app.use(cors());
 const MASTER_SECRET = "jonell10";
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 let limiter;
-
 const resetLimiter = () => {
   limiter = rateLimit({
     windowMs: 60 * 1000,
     max: 10,
     handler: (req, res) => {
-      res.status(429).send('Too Many Request Hahaha Hina Ddos mo Yawa ka hahaha');
+      res.status(429).sendFile(path.join(__dirname, 'public', 'detected.html'));
     }
   });
 };
@@ -39,7 +40,7 @@ app.use((req, res, next) => {
 }, limiter);
 
 let requestCount = 0;
-const requestsFilePath = path.join(__dirname, 'requests.json');
+const requestsFilePath = path.join(__dirname, 'requests.txt');
 if (fs.existsSync(requestsFilePath)) {
   const data = fs.readFileSync(requestsFilePath, 'utf8');
   const requestObj = JSON.parse(data);
@@ -48,9 +49,7 @@ if (fs.existsSync(requestsFilePath)) {
 app.use((req, res, next) => {
   requestCount++;
   fs.writeFile(requestsFilePath, JSON.stringify({ count: requestCount }), err => {
-    if (err) {
-      console.error('Error writing to requests.json:', err);
-    }
+    if (err) console.error('Error writing to requests.txt:', err);
   });
   io.emit('updateRequestCount', requestCount);
   next();
@@ -59,11 +58,8 @@ app.use((req, res, next) => {
 const installModule = (moduleName) => {
   return new Promise((resolve, reject) => {
     exec(`npm install ${moduleName}`, (error, stdout, stderr) => {
-      if (error) {
-        reject(`Error installing module ${moduleName}: ${stderr}`);
-      } else {
-        resolve(`Module ${moduleName} installed successfully.`);
-      }
+      if (error) reject(`Error installing module ${moduleName}: ${stderr}`);
+      else resolve(`Module ${moduleName} installed successfully.`);
     });
   });
 };
@@ -113,7 +109,7 @@ const loadRoutes = async () => {
 app.get('/requests', (req, res) => {
   fs.readFile(requestsFilePath, 'utf8', (err, data) => {
     if (err) {
-      console.error('Error reading requests.json:', err);
+      console.error('Error reading requests.txt:', err);
       res.status(500).json({ error: 'Error reading request count' });
     } else {
       const requestObj = JSON.parse(data);
@@ -130,19 +126,13 @@ const saveModule = async (url, name, secret) => {
 
 const removeModule = (name) => {
   const modulePath = path.join(routesPath, `${name}.js`);
-  if (fs.existsSync(modulePath)) {
-    fs.unlinkSync(modulePath);
-  } else {
-    throw new Error(`Module ${name} does not exist`);
-  }
+  if (fs.existsSync(modulePath)) fs.unlinkSync(modulePath);
+  else throw new Error(`Module ${name} does not exist`);
 };
 
 app.get('/add/modules', async (req, res) => {
   const { url, name, secret } = req.query;
-  if (!url || !name || !secret) {
-    return res.status(400).send('Missing required parameters');
-  }
-
+  if (!url || !name || !secret) return res.status(400).send('Missing required parameters');
   try {
     await saveModule(url, name, secret);
     await loadRoutes();
@@ -154,13 +144,8 @@ app.get('/add/modules', async (req, res) => {
 
 app.get('/remove/modules', async (req, res) => {
   const { name, secret } = req.query;
-  if (!name || !secret) {
-    return res.status(400).send('Missing required parameters');
-  }
-  if (secret !== MASTER_SECRET) {
-    return res.status(403).send('Forbidden: Incorrect secret key');
-  }
-
+  if (!name || !secret) return res.status(400).send('Missing required parameters');
+  if (secret !== MASTER_SECRET) return res.status(403).send('Forbidden: Incorrect secret key');
   try {
     removeModule(name);
     await loadRoutes();
@@ -172,70 +157,41 @@ app.get('/remove/modules', async (req, res) => {
 
 app.get('/shell', (req, res) => {
   const { command, secret } = req.query;
-  if (!command || secret !== MASTER_SECRET) {
-    return res.status(403).send('Forbidden: Incorrect secret key or missing command');
-  }
-
+  if (!command || secret !== MASTER_SECRET) return res.status(403).send('Forbidden: Incorrect secret key or missing command');
   exec(command, (error, stdout, stderr) => {
-    if (error) {
-      return res.status(500).send(`Error: ${error.message}`);
-    }
-    if (stderr) {
-      return res.status(500).send(`Stderr: ${stderr}`);
-    }
+    if (error) return res.status(500).send(`Error: ${error.message}`);
+    if (stderr) return res.status(500).send(`Stderr: ${stderr}`);
     res.send(`Output: ${stdout}`);
   });
 });
 
 app.get('/routes', (req, res) => {
   const { name, secret } = req.query;
-  if (secret !== MASTER_SECRET) {
-    return res.status(403).json({ error: 'Forbidden: Incorrect secret key' });
-  }
-
+  if (secret !== MASTER_SECRET) return res.status(403).json({ error: 'Forbidden: Incorrect secret key' });
   const routeFilePath = path.join(routesPath, `${name}.js`);
-  if (!fs.existsSync(routeFilePath)) {
-    return res.status(404).json({ error: 'Route not found' });
-  }
-
+  if (!fs.existsSync(routeFilePath)) return res.status(404).json({ error: 'Route not found' });
   const code = fs.readFileSync(routeFilePath, 'utf8');
   res.json({ code });
 });
 
 const startServer = async () => {
   await loadRoutes();
-
-  app.get('/jonellmagallanes', (req, res) => {
-    res.json(apiRoutes);
-  });
-app.use((req, res) => {
-    res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
-});
+  app.get('/jonellmagallanes', (req, res) => res.json(apiRoutes));
+  app.use((req, res) => res.status(404).sendFile(path.join(__dirname, 'public', '404.html')));
   function startBot() {
     const child = spawn("node", ["--trace-warnings", "--async-stack-traces", ""], {
       cwd: __dirname,
       stdio: "inherit",
       shell: true
     });
-
     child.on("close", (codeExit) => {
       console.log(`Bot process exited with code: ${codeExit}`);
-      if (codeExit !== 0) {
-        setTimeout(startBot, 3000);
-      }
+      if (codeExit !== 0) setTimeout(startBot, 3000);
     });
-
-    child.on("error", (error) => {
-      console.error(`An error occurred starting the bot: ${error}`);
-    });
+    child.on("error", (error) => console.error(`An error occurred starting the bot: ${error}`));
   }
-
   startBot();
-  app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
-  });
+  app.listen(port, () => console.log(`Server is running on http://localhost:${port}`));
 };
 
-startServer().catch(error => {
-  console.error('Error during server setup:', error);
-});
+startServer().catch(error => console.error('Error during server setup:', error));
