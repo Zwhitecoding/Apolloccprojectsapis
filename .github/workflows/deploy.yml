@@ -35,7 +35,7 @@ jobs:
         uses: denoland/deployctl@v1
         with:
           project: "jonellmagal-ccprojectsj-72"
-          entrypoint: ""
+          entrypoint: "index.js"
           root: "/"
           
           
