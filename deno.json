@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "start": "deno run --allow-net --allow-env app.js"
+    "start": "deno run --allow-net --allow-env index.js"
   },
   "imports": {
     "express": "https://deno.land/x/npm:express@latest"
