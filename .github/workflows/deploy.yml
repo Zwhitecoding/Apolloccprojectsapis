@@ -36,6 +36,6 @@ jobs:
         with:
           project: "jonellmagal-ccprojectsj-72"
           entrypoint: "index.js"
-          root: "/"
+          root: ""
           
           
