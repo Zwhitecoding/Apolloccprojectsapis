@@ -26,19 +26,26 @@ module.exports.routes = {
 };
 
 module.exports.onAPI = async (req, res) => {
-  const { ask ,imagurl } = req.originalUrl.split('/api/geminiversion2?ask=&imgurl=')[1];
+  const { ask, imagurl } = req.query;
 
   if (!ask || !imagurl) {
     return res.status(400).json({ error: 'Both ask and imagurl parameters are required.' });
   }
 
   try {
-    const imageResponse = await axios.get(imagurl, { responseType: 'arraybuffer' });
+    const imageResponse = await axios.get(imagurl, {
+      responseType: 'arraybuffer',
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+        'Accept': 'image/avif,image/webp,image/apng,image/*,*/*;q=0.8',
+        'Referer': 'https://facebook.com'
+      }
+    });
 
     const image = {
       inlineData: {
         data: Buffer.from(imageResponse.data).toString("base64"),
-        mimeType: "image/png",
+        mimeType: "image/jpeg",
       },
     };
 
