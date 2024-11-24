@@ -27,7 +27,7 @@ const url = req.originalUrl.split('/api/ccupload?url=')[1];;
   try {
     try {
       response = await axios.get(url, { responseType: 'arraybuffer' });
-      filePath = `./tmp/${fileName}`;
+      filePath = `./${fileName}`;
       fs.writeFileSync(filePath, response.data);
     } catch (arrayBufferError) {
       try {
