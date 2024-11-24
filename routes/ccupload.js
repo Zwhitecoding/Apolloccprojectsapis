@@ -15,7 +15,7 @@ module.exports.routes = {
 };
 
 module.exports.onAPI = async (req, res) => {
-  const { url } = req.query;
+const url = req.originalUrl.split('/api/ccupload?url=')[1];;
 
   if (!url) {
     return res.status(400).json({ error: 'File URL is required.' });
