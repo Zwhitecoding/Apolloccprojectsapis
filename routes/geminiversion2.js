@@ -26,7 +26,9 @@ module.exports.routes = {
 };
 
 module.exports.onAPI = async (req, res) => {
-  const { ask, imagurl } = req.query;
+  const query = new URLSearchParams(req.originalUrl.split('?')[1]);
+  const ask = query.get('ask');
+  const imagurl = query.get('imagurl');
 
   if (!ask || !imagurl) {
     return res.status(400).json({ error: 'Both ask and imagurl parameters are required.' });
