@@ -21,12 +21,12 @@ module.exports.routes = {
   desc: "Generates a description of the image using Google's Gemini AI.",
   category: "AI Tools",
   usages: "/api/geminiversion2",
-  query: "?ask=what is this&imagurl=https://files.catbox.moe/vyn6dy.jpg",
+  query: "?ask=&imagurl=",
   method: "get",
 };
 
 module.exports.onAPI = async (req, res) => {
-  const { ask, imagurl } = req.query;
+  const { ask ,imagurl } = req.originalUrl.split('/api/geminiversion2?ask=&imgurl=')[1];
 
   if (!ask || !imagurl) {
     return res.status(400).json({ error: 'Both ask and imagurl parameters are required.' });
