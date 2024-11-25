@@ -5,7 +5,7 @@ const cooldowns = new Map();
 module.exports.routes = {
   name: "SMS BOMB",
   desc: "Send spam SMS to a phone number. Limited to 60 messages with a 20-second cooldown.",
-  category: "Utilities",
+  category: "SMS Tools",
   usages: "/api/smsbomb",
   query: "?phonenum=&spamnum=",
   method: "get",
