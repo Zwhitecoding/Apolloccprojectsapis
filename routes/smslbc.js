@@ -76,7 +76,7 @@ async function sendSMS(message, recipient, token1, token2) {
 module.exports.routes = {
   name: 'FREE SMS LBC',
   desc: 'Send free SMS using LBC services Note: do not use this api route for illegal activities okay just educational purposes use!',
-  category: 'Tools',
+  category: 'SMS TOOLS',
   usages: '/api/smsfree',
   query: '?number=&message=',
   method: 'get',
