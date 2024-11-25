@@ -5,7 +5,7 @@ const router = express.Router();
 module.exports.routes = {
   name: 'Check Sim Brand',
   desc: 'Identify the mobile number brand and details',
-  category: 'SIM Tools',
+  category: 'SMS Tools',
   usages: '/api/simbrand',
   query: '?number=',
   method: 'get',
