@@ -38,13 +38,16 @@ module.exports.onAPI = async (req, res) => {
     if (card.length > 0) {
       const link = card.find("a[href]").first().attr("href");
       const titleMatch = response.data.match(/title=([^"]+)/);
-      const title = titleMatch ? decodeURIComponent(titleMatch[1]) : "Unknown Title";
+      let title = titleMatch ? decodeURIComponent(titleMatch[1]) : "Unknown Title";
+      title = title.split(' ')[0];
+      const filteredLink = link ? link.split(' ')[0] : link;
 
-      if (link) {
+      if (filteredLink) {
         return res.json({
           title: title.trim(),
-          download_url: link,
+          download_url: filteredLink,
           process_time: `${(endTime - startTime) / 1000} seconds`,
+          author: "Jonell Magallanes"
         });
       }
     }
