@@ -44,6 +44,7 @@
     "qs": "^6.13.0",
     "request": "^2.88.2",
     "serpapi": "^2.1.0",
+     "unlimited-ai": "^4.0.0",
     "socket.io": "^4.8.0",
     "tough-cookie": "^4.1.4",
     "tough-cookie-file-store": "^2.0.3",
