@@ -1,12 +1,12 @@
 const express = require('express');
 const fs = require('fs').promises;
-const ai = require('unlimited-ai');
+const { gpt } = require("gpti");
 
 const router = express.Router();
 
 module.exports.routes = {
     name: "GPT Conversation",
-    desc: "Handles Continues GPT conversations",
+    desc: "Handles Continuous GPT Conversations",
     usages: "/api/gptconvo",
     query: "?ask=hi&id=1",
     method: "get",
@@ -22,24 +22,30 @@ module.exports.onAPI = async (req, res) => {
     }
 
     let messages = [];
-    const model = 'gpt-4-turbo-2024-04-09';
+    const filePath = `./${id}.json`;
 
     try {
-        const data = await fs.readFile(`./${id}.json`, 'utf8');
+        const data = await fs.readFile(filePath, 'utf8');
         messages = JSON.parse(data);
     } catch (error) {
         messages = [
-            { role: "system", content: "You're a math teacher." },
+            { role: "system", content: "You're a helpful assistant." }
         ];
     }
 
     messages.push({ role: "user", content: ask });
 
     try {
-        const response = await ai.generate(model, messages);
+        const response = await gpt.v1({
+            messages,
+            prompt: ask,
+            model: "GPT-4",
+            markdown: false
+        });
+
         messages.push({ role: "assistant", content: response });
 
-        await fs.writeFile(`./${id}.json`, JSON.stringify(messages, null, 2));
+        await fs.writeFile(filePath, JSON.stringify(messages, null, 2));
 
         res.json({ response });
     } catch (error) {
