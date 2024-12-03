@@ -1,13 +1,12 @@
 const express = require('express');
 const fs = require('fs').promises;
-const { G4F } = require('g4f');
+const ai = require('unlimited-ai');
 
 const router = express.Router();
-const g4f = new G4F();
 
 module.exports.routes = {
     name: "GPT Conversation",
-    desc: "Handles Continues GPT conversations ",
+    desc: "Handles Continues GPT conversations",
     usages: "/api/gptconvo",
     query: "?ask=hi&id=1",
     method: "get",
@@ -23,6 +22,7 @@ module.exports.onAPI = async (req, res) => {
     }
 
     let messages = [];
+    const model = 'gpt-4-turbo-2024-04-09';
 
     try {
         const data = await fs.readFile(`./${id}.json`, 'utf8');
@@ -36,7 +36,7 @@ module.exports.onAPI = async (req, res) => {
     messages.push({ role: "user", content: ask });
 
     try {
-        const response = await g4f.chatCompletion(messages);
+        const response = await ai.generate(model, messages);
         messages.push({ role: "assistant", content: response });
 
         await fs.writeFile(`./${id}.json`, JSON.stringify(messages, null, 2));
