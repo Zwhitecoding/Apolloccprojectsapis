@@ -22,7 +22,7 @@ module.exports.onAPI = async (req, res) => {
     }
 
     let messages = [];
-    const filePath = `./${id}.json`;
+    const filePath = `./json/llama/${id}.json`;
 
     try {
         const data = await fs.readFile(filePath, 'utf8');
