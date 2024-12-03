@@ -43,11 +43,7 @@ module.exports.onAPI = async (req, res) => {
             markdown: false
         });
 
-        messages.push({ role: "assistant", content: response });
-
-        await fs.writeFile(filePath, JSON.stringify(messages, null, 2));
-
-        res.json({ response });
+        res.json({ response: response.gpt });
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
     }
