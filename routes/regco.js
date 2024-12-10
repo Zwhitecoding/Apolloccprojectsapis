@@ -1,11 +1,8 @@
-const express = require('express');
-const axios = require('axios');
-const fs = require('fs');
-const path = require('path');
+const axios = require("axios");
 
 module.exports.routes = {
   name: "Recognize Music",
-  desc: "Downloads a music file from a given URL and recognizes the track using the Audd API.",
+  desc: "Recognizes the track from a given file URL",
   category: "Tools",
   usages: "/api/recog",
   query: "?url=",
@@ -13,52 +10,24 @@ module.exports.routes = {
 };
 
 module.exports.onAPI = async (req, res) => {
-  const fileUrl = req.originalUrl.split('/recog?url=')[1];
+  const fileUrl = req.originalUrl.split('/api/recog?url=')[1];
+;
 
   if (!fileUrl) {
-    return res.status(400).json({ error: 'No URL provided' });
+    return res.status(400).json({ error: "No URL provided" });
   }
-
-  const filePath = path.join(__dirname, 'downloaded.mp3');
-  const writer = fs.createWriteStream(filePath);
 
   try {
-    const response = await axios({
-      method: 'get',
+    const data = {
       url: fileUrl,
-      responseType: 'stream'
-    });
+      api_token: "test",
+      return: "apple_music,spotify",
+    };
 
-    response.data.pipe(writer);
-
-    writer.on('finish', async () => {
-      try {
-        const auddData = {
-          'api_token': 'fdb1d58242a7472c5d425f4c277a09f6',
-          'file': fs.createReadStream(filePath),
-          'return': 'apple_music,spotify',
-        };
-
-        const auddResponse = await axios({
-          method: 'post',
-          url: 'https://api.audd.io/',
-          data: auddData,
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
-
-        res.json(auddResponse.data);
-
-        fs.unlinkSync(filePath);
-      } catch (auddError) {
-        res.status(500).json({ error: 'Error recognizing audio', details: auddError.message });
-      }
-    });
-
-    writer.on('error', () => {
-      res.status(500).json({ error: 'Error downloading file' });
-    });
-
-  } catch (error) {
-    res.status(500).json({ error: 'Error processing request', details: error.message });
+    const response = await axios.post("https://api.audd.io/", data);
+    res.status(200).json(response.data);
+  } catch (err) {
+    res.status(500).json({ error: "An error occurred", details: err.message });
   }
 };
+    
