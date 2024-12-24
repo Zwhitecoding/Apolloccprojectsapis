@@ -195,3 +195,14 @@ const startServer = async () => {
 };
 
 startServer().catch(error => console.error('Error during server setup:', error));
+
+// Add this at the end of the file
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  // Keep the server running
+});
+
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception thrown:', error);
+  // Keep the server running
+});
