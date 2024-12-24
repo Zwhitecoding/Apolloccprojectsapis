@@ -34,7 +34,6 @@
     "mammoth": "^1.8.0",
     "mime-types": "^2.1.35",
     "nayan-media-downloader": "^2.6.2",
-    "nayan-server": "^2.4.2",
     "node-cron": "^3.0.3",
     "pdf-parse": "^1.1.1",
     "pptx2json": "^0.0.10",
