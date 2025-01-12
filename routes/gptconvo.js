@@ -44,12 +44,7 @@ module.exports.onAPI = async (req, res) => {
 
         saveConversation(id, conversation);
 
-        res.status(200).json({
-            question: ask,
-            response,
-            id,
-            conversation,
-        });
+        res.status(200).json(response);
     } catch (error) {
         console.error('Error handling GPT conversation:', error);
         res.status(500).json({ error: 'Internal Server Error' });
