@@ -9,8 +9,6 @@ module.exports.routes = {
     method: "get",
 };
 
-let token = '';
-
 async function fetchToken() {
     try {
         const config = {
@@ -34,12 +32,12 @@ async function fetchToken() {
                 'referer': 'https://github.com/copilot',
                 'accept-language': 'en-US,en;q=0.9,id;q=0.8,fil;q=0.7',
                 'priority': 'u=1, i',
-                'Cookie': 'user_session=qqrlkAawDe1D7BRLdmWB4OugLYl09AK9Iaisoc3QDw8txJwo; __Host-user_session_same_site=qqrlkAawDe1D7BRLdmWB4OugLYl09AK9Iaisoc3QDw8txJwo; _octo=GH1.1.1147670827.1712475435; _device_id=c48ee78a6d691bd407a12a1fb41453ca; GHCC=Required:1-Analytics:1-SocialMedia:1-Advertising:1; logged_in=yes; dotcom_user=magallanes10; color_mode=%7B%22color_mode%22%3A%22auto%22%2C%22light_theme%22%3A%7B%22name%22%3A%22light%22%2C%22color_mode%22%3A%22light%22%7D%2C%22dark_theme%22%3A%7B%22name%22%3A%22dark%22%2C%22color_mode%22%3A%22dark%22%7D%7D; cpu_bucket=lg; preferred_color_mode=dark; tz=Asia%2FManila; _gh_sess=Lo%2FGmPISAYTBUI5OgmXEMDAFDf2U3oxmoCeSNLpHl21IJW0Szfyj%2BSRniEmswqdVa2VnuuOQi%2BbP2GGql4QGqP9OuUEKJTjldZLTjgqp5yiOqJ6MJs53f1Z6vo6YqTo7vS3Ttskhp9uOMhILp3iSTQUd1Qljw2F1zcoiSwfVs0E4SLXclgp7EKeYYhCEdZqxk0kqRwNLck9FF%2BT7cRhlPkie93KW75LLORCu1ThbdIfCcg%2BREuihm5Ll0ucMLpP5bFsUd9QdfGyahLjq%2BQOc%2FF%2BdnsME7C40%2FCoDmZKKdWIyn40hLSPjsbWNY2WcR%2F4BEmTpxg%3D%3D--fRrxU9NvKQH6Km%2FK--XklC%2B7%2FUQh5v70xGU7ABkw%3D%3D'
+                'Cookie': 'user_session=qqrlkAawDe1D7BRLdmWB4OugLYl09AK9Iaisoc3QDw8txJwo; __Host-user_session_same_site=qqrlkAawDe1D7BRLdmWB4OugLYl09AK9Iaisoc3QDw8txJwo; _octo=GH1.1.1147670827.1712475435; _device_id=c48ee78a6d691bd407a12a1fb41453ca; GHCC=Required:1-Analytics:1-SocialMedia:1-Advertising:1; logged_in=yes; dotcom_user=magallanes10; color_mode=%7B%22color_mode%22%3A%22auto%22%2C%22light_theme%22%3A%7B%22name%22%3A%22light%22%2C%22color_mode%22%3A%22light%22%7D%2C%22dark_theme%22%3A%7B%22name%22%3A%22dark%22%2C%22color_mode%22%3A%22dark%22%7D%7D; cpu_bucket=lg; preferred_color_mode=dark; tz=Asia%2FManila; _gh_sess=Lo%2FGmPISAYTBUI5OgmXEMDAFDf2U3oxmoCeSNLpHl21IJW0Szfyj%2BSRniEmswqdVa2VnuuOQi%2BbP2GGql4QGqP9OuUEKJTjldZLTjgqp5yiOqJ6MJs53f1Z6vo6YqTo7vS3Ttskhp9uOMhILp3iSTQUd1Qljw2F1zcoiSwfVs0E4SLXclgp7EKeYYhCEdZqxk0kqRwNLck9FF%2BT7cRhlPkie93KW75LLORCu1ThbdIfCcg%2BREuihm5Ll0ucMLpP5bFsUd9QdfGyahLjq%2BQOc%2FF%2BdnsME7C40%2FCoDmZKKdWIyn40hLSPjsbWNY2WcR%2F4BEmTpxg%3D%3D--fRrxU9NvKQH6Km%2FK--XklC%2B7%2FUQh5v70xGU7ABkw%3D%3D',
             },
         };
 
         const response = await axios.request(config);
-        token = response.data.token;
+        return response.data.token;
     } catch (error) {
         throw new Error('Failed to fetch token: ' + error.message);
     }
@@ -52,7 +50,7 @@ module.exports.onAPI = async (req, res) => {
     }
 
     try {
-        if (!token) await fetchToken();
+        const token = await fetchToken();
 
         const data = JSON.stringify({
             content: ask,
