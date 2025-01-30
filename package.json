@@ -41,6 +41,7 @@
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-recaptcha": "^3.6.8",
     "qs": "^6.13.0",
+    "googlethis": "^1.8.0",
     "request": "^2.88.2",
     "serpapi": "^2.1.0",
      "unlimited-ai": "^4.0.0",
