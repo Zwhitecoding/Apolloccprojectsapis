@@ -1,39 +1,34 @@
-const CobaltAPI = require("cobalt-api");
+const axios = require('axios');
 
 module.exports.routes = {
-    name: "YouTube Video Downloader",
-    desc: "Download a video from YouTube by providing its URL.",
-    category: "Downloader",
-    usages: "/api/ytvideo",
-    query: "?url=",
-    method: "get",
+  name: "YouTube Video Downloader",
+  desc: "Download Video (MP4) from YouTube videos.",
+  category: "Downloader",
+  query: "?url=",
+  usages: "/api/ytmp4",
+  method: "get",
 };
 
 module.exports.onAPI = async (req, res) => {
-    const youtubeUrl = req.query.url || req.body.url;
+  const url = req.query.url;
 
-    if (!youtubeUrl) {
-        return res.status(400).json({ error: 'Please provide a YouTube URL.' });
-    }
+  if (!url) {
+    return res.status(400).send({ message: 'Please provide a URL parameter' });
+  }
 
-    try {
-        const cobalt = new CobaltAPI(youtubeUrl);
+  try {
+    const response = await axios.get(`https://ytdownloader.zetsu.xyz/ytdl?url=${url}&type=mp3`);
 
-        const response = await cobalt.sendRequest();
-        if (response.status) {
-            return res.json({
-                status: true,
-                message: "Download successful",
-                data: response.data
-            });
-        } else {
-            return res.status(500).json({
-                status: false,
-                message: "Download failed",
-                error: response.text
-            });
-        }
-    } catch (error) {
-        return res.status(500).json({ status: false, error: 'An error occurred while processing your request.' });
-    }
+    const { download, title, response: timeResponse } = response.data;
+
+    res.send({
+      title: title,
+      download_url: download,
+      response_time: timeResponse
+    });
+
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send({ message: 'Error fetching MP3 from YouTube' });
+  }
 };
