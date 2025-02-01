@@ -3,7 +3,7 @@ const axios = require('axios');
 module.exports.routes = {
   name: "iAsk AI",
   desc: "Get responses from iAsk AI.",
-  category: "AI",
+  category: "AI Tools",
   query: "?ask=hi",
   usages: "/api/iask",
   method: "get",
