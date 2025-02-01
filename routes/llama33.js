@@ -3,7 +3,7 @@ const axios = require('axios');
 module.exports.routes = {
   name: "LLaMA 33",
   desc: "Get responses from LLaMA 33 model",
-  category: "AI",
+  category: "AI Tools",
   query: "?ask=your-question",
   usages: "/api/llama",
   method: "get",
