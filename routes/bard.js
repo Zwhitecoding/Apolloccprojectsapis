@@ -3,7 +3,7 @@ const axios = require('axios');
 module.exports.routes = {
   name: "Bard AI",
   desc: "Get responses from Bard AI (the old version of Gemini AI).",
-  category: "AI",
+  category: "AI Tools",
   query: "?ask=hi",
   usages: "/api/bard",
   method: "get",
