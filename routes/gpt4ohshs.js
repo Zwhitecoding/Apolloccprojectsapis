@@ -3,9 +3,9 @@ const FormData = require('form-data');
 
 module.exports.routes = {
   name: "Gpt4o-pro",
-  description: "Ask questions, analyze images, or generate images using Gpt-4o",
+  description: "Ask questions with GPT4o Pro",
   usages: "/api/gpt4o-pro",
-  query: "?q=hello&uid=1&imageUrl=",
+  query: "?q=hello&uid=1",
   method: "get",
   category: "AI Tools",
 };
