@@ -17,7 +17,7 @@ module.exports.onAPI = async (req, res) => {
   }
 
   try {
-    const response = await axios.get(`https://ytdownloader.zetsu.xyz/ytdl?url=${url}&type=mp3`);
+    const response = await axios.get(`https://ytdownloader.zetsu.xyz/ytdl?url=${url}&type=mp4`);
 
     const { download, title, response: timeResponse } = response.data;
 
