@@ -56,9 +56,9 @@ const uploadToAudd = async (filePath) => {
 };
 
 module.exports.routes = {
-  name: "Recognition Music Shazam",
+  name: "Regco API",
   desc: "Download and identify music from a given URL",
-  category: "Tools",
+  category: "Music",
   query: "?url=",
   usages: "/api/regco",
   method: "get",
@@ -66,7 +66,7 @@ module.exports.routes = {
 
 module.exports.onAPI = async (req, res) => {
   const url = req.originalUrl.split('/api/regco?url=')[1];
-  
+
   if (!url) {
     return res.status(400).json({ error: 'No URL provided' });
   }
@@ -88,24 +88,31 @@ module.exports.onAPI = async (req, res) => {
 
     const auddResponse = await uploadToAudd(filePath);
 
-    const filteredResponse = {
-      status: auddResponse.data.status,
-      result: {
-        artist: auddResponse.data.result.artist,
-        title: auddResponse.data.result.title,
-        album: auddResponse.data.result.album,
-        release_date: auddResponse.data.result.release_date,
-        label: auddResponse.data.result.label,
-        timecode: auddResponse.data.result.timecode,
-        song_link: auddResponse.data.result.song_link,
-        apple_music: auddResponse.data.result.apple_music,
-        spotify: auddResponse.data.result.spotify
-      }
-    };
+    // Check if the result exists and contains the necessary data
+    if (auddResponse.data && auddResponse.data.result) {
+      const { result } = auddResponse.data;
+      const filteredResponse = {
+        status: auddResponse.data.status,
+        result: {
+          artist: result.artist || 'Unknown artist',
+          title: result.title || 'Unknown title',
+          album: result.album || 'Unknown album',
+          release_date: result.release_date || 'Unknown release date',
+          label: result.label || 'Unknown label',
+          timecode: result.timecode || 'Unknown timecode',
+          song_link: result.song_link || 'No link available',
+          apple_music: result.apple_music || 'No Apple Music link',
+          spotify: result.spotify || 'No Spotify link'
+        }
+      };
 
-    fs.unlinkSync(filePath);
+      fs.unlinkSync(filePath);
 
-    res.json(filteredResponse);
+      res.json(filteredResponse);
+    } else {
+      res.status(404).json({ error: 'Music not identified', message: 'No result found for the uploaded song.' });
+    }
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Request failed', message: error.message });
