@@ -59,7 +59,7 @@ module.exports.onAPI = async (req, res) => {
             .join(' ')
             .replace(/\s+/g, ' ');
 
-        res.json({ message: cleanedText });
+        res.json(cleanedText);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Request failed' });
