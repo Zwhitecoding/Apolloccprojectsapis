@@ -35,7 +35,7 @@ module.exports.onAPI = async (req, res) => {
 
         fileStream.on('finish', () => {
             const hostUrl = `${req.protocol}://${req.get('host')}`;
-            const downloadLink = `${hostUrl}/downloads/${timestamp}.mp3`;
+            const downloadLink = `${hostUrl}/public/${timestamp}.mp3`;
 
             res.json({ Title: title, dl: downloadLink });
 
