@@ -1,9 +1,8 @@
 const fs = require('fs');
-const path = require('path');
 const { SoundCloud } = require('scdl-core');
 const express = require('express');
 
-const downloadsDir = path.join(__dirname, 'downloads');
+const downloadsDir = './downloads';
 if (!fs.existsSync(downloadsDir)) {
     fs.mkdirSync(downloadsDir);
 }
@@ -26,7 +25,7 @@ module.exports.onAPI = async (req, res) => {
     try {
         const title = soundCloudUrl.split('/').pop().replace(/-/g, ' ');
         const timestamp = Date.now();
-        const filePath = path.join(downloadsDir, `${timestamp}.mp3`);
+        const filePath = `${downloadsDir}/${timestamp}.mp3`;
         const fileStream = fs.createWriteStream(filePath);
 
         await SoundCloud.connect();
