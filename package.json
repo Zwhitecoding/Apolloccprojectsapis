@@ -24,7 +24,7 @@
     "express-rate-limit": "^7.4.1",
     "freeport": "^1.0.5",
     "g4f": "^1.4.6",
-   "scdl-core": "^1.1.0"
+   "scdl-core": "^1.1.0",
     "gf": "^0.0.1",
     "googleapis": "^142.0.0",
     "gpt4js": "^1.7.8",
