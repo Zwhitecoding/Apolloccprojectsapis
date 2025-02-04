@@ -2,7 +2,7 @@ const fs = require('fs');
 const { SoundCloud } = require('scdl-core');
 const express = require('express');
 
-const downloadsDir = './downloads';
+const downloadsDir = './public';
 if (!fs.existsSync(downloadsDir)) {
     fs.mkdirSync(downloadsDir);
 }
@@ -52,5 +52,5 @@ module.exports.onAPI = async (req, res) => {
 };
 
 module.exports.setup = (app) => {
-    app.use('/downloads', express.static(downloadsDir));
+    app.use('/public', express.static(downloadsDir));
 };
