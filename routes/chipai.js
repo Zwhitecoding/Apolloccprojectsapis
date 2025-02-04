@@ -5,7 +5,7 @@ const auth = '_hjSessionUser_5183059=eyJpZCI6ImZiMDJmOWNhLTQwYzgtNWRiMC1iNzY2LTc
 module.exports.routes = {
     name: "Chipp AI Image Analyzer",
     desc: "Analyze images with AI and answer user queries",
-    category: "AI",
+    category: "AI Tools",
     query: "?ask=what is this photo&imageUrl=https://files.catbox.moe/qoy0db.jpg",
     usages: "/api/chipai",
     method: "get",
