@@ -6,7 +6,7 @@ module.exports.routes = {
     category: "AI Tools",
     query: "?ask=Hi",
     usages: "/api/chaitext",
-    method: "post",
+    method: "get",
 };
 
 module.exports.onAPI = async (req, res) => {
