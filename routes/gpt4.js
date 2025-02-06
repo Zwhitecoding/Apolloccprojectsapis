@@ -10,7 +10,7 @@ if (!fs.existsSync(conversationsDir)) {
 module.exports.routes = {
     name: "GPT-4 Conversation",
     desc: "Engage in a conversation with GPT-4 while keeping chat history",
-    category: "AI",
+    category: "AI Tools",
     query: "?ask=hi&id=1",
     usages: "/api/gpt4",
     method: "get",
