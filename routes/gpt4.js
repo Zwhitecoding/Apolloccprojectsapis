@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const { gpt } = require("gpti");
 
-const conversationsDir = "./conversations";
+const conversationsDir = "./gpt4";
 if (!fs.existsSync(conversationsDir)) {
     fs.mkdirSync(conversationsDir, { recursive: true });
 }
@@ -49,7 +49,7 @@ module.exports.onAPI = async (req, res) => {
 
         fs.writeFileSync(filePath, JSON.stringify(conversation, null, 2));
 
-        return res.json({ response: responseText });
+        return res.json(responseText);
     } catch (error) {
         return res.status(500).json({ error: "GPT API error", details: error.message });
     }
