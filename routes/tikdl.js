@@ -44,11 +44,11 @@ module.exports.onAPI = async (req, res) => {
 
         let downloadUrl = downloadMatch ? downloadMatch[1] : null;
         let title = titleMatch ? titleMatch[1] : "No title";
-        let extraDownloadUrl = extraDownloadMatch ? extraDownloadMatch[1] : null;
+        let extraDownloadUrlextraDownloadUrlextraDownloadUrl = extraDownloadMatch ? extraDownloadMatch[1] : null;
 
         let result = { 
             title, 
-            download_url: downloadUrl || "Not found" 
+            download_url: downloadUrl || extraDownloadUrl
         };
 
         if (extraDownloadUrl) result.extra_download_url = extraDownloadUrl;
