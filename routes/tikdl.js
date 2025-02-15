@@ -43,15 +43,13 @@ module.exports.onAPI = async (req, res) => {
         let extraDownloadMatch = html.match(/href="(https:\/\/tikcdn\.io\/ssstik\/[0-9]+)"/);
 
         let downloadUrl = downloadMatch ? downloadMatch[1] : null;
+        let extraDownloadUrl = extraDownloadMatch ? extraDownloadMatch[1] : null;
         let title = titleMatch ? titleMatch[1] : "No title";
-        let extraDownloadUrlextraDownloadUrlextraDownloadUrl = extraDownloadMatch ? extraDownloadMatch[1] : null;
 
         let result = { 
             title, 
             download_url: downloadUrl || extraDownloadUrl
         };
-
-        if (extraDownloadUrl) result.extra_download_url = extraDownloadUrl;
 
         res.json(result);
     } catch (error) {
