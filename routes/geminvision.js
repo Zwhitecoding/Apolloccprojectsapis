@@ -2,12 +2,12 @@ const express = require("express");
 const Gemini = require("btch-gemini");
 
 module.exports.routes = {
-    name: "Gemini Vision",
+    name: "Gemini Vision Image Pro",
     desc: "Generate responses using Gemini AI with vision capability",
-    category: "AI Generation",
+    category: "AI Tools ",
     usages: "/api/geminivision",
     method: "get",
-    query: "?prompt=&url=",
+    query: "?prompt=what is this&url=https://files.catbox.moe/wyh1er.jpg",
 };
 
 module.exports.onAPI = async (req, res) => {
