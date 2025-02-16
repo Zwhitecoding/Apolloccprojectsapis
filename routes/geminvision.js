@@ -1,38 +1,59 @@
-const axios = require('axios');
+const express = require("express");
+const fs = require("fs");
+const path = require("path");
+const Gemini = require("btch-gemini");
 
 module.exports.routes = {
-    name: "Gemini Vision",
-    desc: "Analyze an image by providing its URL and a question. It returns a vision based on the image.",
+    name: "Gemini Vision Pro",
+    desc: "Generate responses using Gemini AI with vision capability conversation",
     category: "AI Tools",
-    usages: "/api/gemini",
-    query: "?ask=hi&imgurl=https://files.catbox.moe/km22ta.jpg",
+    usages: "/api/geminivision",
     method: "get",
+    query: "?prompt=hi&id=1&url=https://files.catbox.moe/wyh1er.jpg",
 };
 
 module.exports.onAPI = async (req, res) => {
-    const ask = req.query.ask || req.body.ask;
-    const photoUrl = req.query.imgurl || req.body.imgurl;
+    const { prompt, id, url } = req.query;
 
-    if (!ask || !photoUrl) {
-        return res.status(400).json({ error: 'Please provide both "ask" and "imgurl" parameters.' });
+    if (!prompt || !id || !url) {
+        return res.status(400).json({ error: "Missing prompt, id, or url parameter" });
+    }
+
+    const dirPath = path.join(__dirname, "gemini");
+    const filePath = path.join(dirPath, `${id}.json`);
+
+    if (!fs.existsSync(dirPath)) {
+        fs.mkdirSync(dirPath, { recursive: true });
+    }
+
+    function loadConversation() {
+        if (fs.existsSync(filePath)) {
+            return JSON.parse(fs.readFileSync(filePath, "utf8"));
+        }
+        return { history: [], imageResponse: null };
+    }
+
+    function saveConversation(data) {
+        fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf8");
     }
 
     try {
-        const response = await axios.get(`http://sgp1.hmvhostings.com:25622/gemini?ask=${encodeURIComponent(ask)}&imgurl=${encodeURIComponent(photoUrl)}`);
-        const data = response.data;
+        let conversationData = loadConversation();
 
-        if (data && data.imageResponse) {
-            return res.json({
-                status: true,
-                vision: data.imageResponse
-            });
-        } else {
-            return res.status(500).json({
-                status: false,
-                error: 'Failed to retrieve image response from the Gemini API.'
-            });
+        if (!conversationData.imageResponse) {
+            conversationData.imageResponse = await Gemini.gemini_image(prompt, url);
         }
+
+        conversationData.history.push({ role: "user", content: prompt });
+
+        const historyResponse = await Gemini.gemini_history(conversationData.history);
+        conversationData.history.push({ role: "assistant", content: historyResponse });
+
+        saveConversation(conversationData);
+
+        res.json(conversationData.imageResponse);
+
     } catch (error) {
-        return res.status(500).json({ status: false, error: 'An error occurred while processing your request.' });
+        res.status(500).json({ error: "Gemini API error", details: error.message });
     }
 };
