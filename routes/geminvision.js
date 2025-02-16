@@ -4,7 +4,7 @@ const path = require("path");
 const Gemini = require("btch-gemini");
 
 module.exports.routes = {
-    name: "Gemini Vision Pro",
+    name: "Gemini Vision Image Pro",
     desc: "Generate responses using Gemini AI with vision capability conversation",
     category: "AI Tools",
     usages: "/api/geminivision",
@@ -16,7 +16,7 @@ module.exports.onAPI = async (req, res) => {
     const { prompt, id, url } = req.query;
 
     if (!prompt || !id || !url) {
-        return res.status(400).json({ error: "Missing prompt, id, or url parameter" });
+        return res.status(400).send("Missing prompt, id, or url parameter");
     }
 
     const dirPath = path.join(__dirname, "gemini");
@@ -51,9 +51,9 @@ module.exports.onAPI = async (req, res) => {
 
         saveConversation(conversationData);
 
-        res.json(conversationData.imageResponse);
+        res.send(historyResponse); // Returns only the plain response text
 
     } catch (error) {
-        res.status(500).json({ error: "Gemini API error", details: error.message });
+        res.status(500).send("Gemini API error: " + error.message);
     }
 };
