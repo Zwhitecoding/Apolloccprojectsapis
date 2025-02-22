@@ -8,14 +8,14 @@ const { URL } = require("url");
 module.exports.routes = {
     name: "File CDN Uploadf",
     desc: "Upload files to Uploadf CDN and get the direct link",
-    category: "File Upload",
+    category: "File Management",
     usages: "/api/upf",
     method: "get",
     query: "?url=",
 };
 
 module.exports.onAPI = async (req, res) => {
-    const { url } = req.query;
+    const url = req.originalUrl.split('/api/upf?url=')[1];
 
     if (!url) {
         return res.status(400).send("Missing 'url' parameter");
