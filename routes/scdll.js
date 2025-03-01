@@ -8,7 +8,7 @@ module.exports.routes = {
     name: "SoundCloud Downloader",
     desc: "Download and convert SoundCloud tracks",
     category: "Downloader",
-    usages: "/api/scdl",
+    usages: "/api/scdll",
     method: "get",
     query: "?url=",
 };
