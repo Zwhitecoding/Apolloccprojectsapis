@@ -4,109 +4,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JONELL HUTCHIN MAGALLANES PORTFOLIO (API)</title>
-    <meta property="og:description" content="Info About Jonell Hutchins Magallanes and REST API EXPLORER">
-    <meta property="og:image" content="https://graph.facebook.com/100036956043695/picture?width=720&height=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662">
-    <meta property="og:url" content="https://graph.facebook.com/100036956043695/picture?width=720&height=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662">
-    <meta property="og:type" content="website">
+    <title>JONELL HUTCHIN MAGALLANES | Portfolio 🤦</title>
     <link rel="icon" href="https://files.catbox.moe/kdqa0t.png" type="image/x-icon">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
     <style>
-        @keyframes popUp {
-            0% {
-                transform: scale(0);
-                opacity: 0;
-            }
-            50% {
-                transform: scale(1.05);
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
+        @keyframes rocketLaunch {
+            0% { transform: translateY(0); opacity: 1; }
+            50% { transform: translateY(-50px); opacity: 1; }
+            100% { transform: translateY(-500px); opacity: 0; }
         }
 
-        .pop-up {
+        .rocket {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
             opacity: 0;
-            animation: popUp 0.5s forwards;
         }
 
-        .social-icon {
-            width: 30px;
-            height: 30px;
-            background-size: cover;
-            display: inline-block; /* Ensure the icon displays as a block */
+        .fade-in, .slide-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
         }
 
-        .fb {
-            background-image: url('https://files.catbox.moe/gl8yme.png');
+        .fade-in.visible, .slide-up.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .ig {
-            background-image: url('https://files.catbox.moe/69xtpa.png');
-        }
-
-        .gh {
-            background-image: url('https://files.catbox.moe/7sg4m9.png');
-        }
-
-        .capcut {
-            background-image: url('https://files.catbox.moe/t00kc8.png');
-        }
-
-        .tiktok {
-            background-image: url('https://files.catbox.moe/2ovs86.png');
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
         }
     </style>
 </head>
 
-<body class="bg-gradient-to-b from-purple-600 to-blue-500 flex justify-center items-center h-screen overflow-hidden">
-    <div class="bg-white rounded-lg shadow-lg overflow-hidden w-11/12 max-w-sm opacity-0 pop-up" id="container">
-        <div class="bg-purple-600 p-5 text-white text-center">
-            <img src="https://graph.facebook.com/100036956043695/picture?width=720&height=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662" alt="Profile Picture" class="w-24 h-24 rounded-full border-4 border-white mx-auto mb-2">
-            <h1 class="text-xl font-bold">Jonell Magallanes</h1>
-            <p class="mt-2 text-center">Philippines, Negros Occidental San Enrique</p>
-            <h2 class="text-lg mt-2 text-center">Current School: Lacarlota City College</h2>
-        </div>
-        <div class="p-5 text-center">
-            <p class="mt-4 text-sm">Hello there :></p>
-            <h2 class="text-lg font-semibold">Apk AM and Project</h2>
-            <div class="flex justify-around my-4">
-                <button onclick="redirectTo('https://www.mediafire.com/file/ot45ttry6ekgl36/After+Motion+CS+_9.9.99.999999.apk/file')" class="bg-transparent border-none cursor-pointer">
-                    <img src="https://files.catbox.moe/8gmanb.png" alt="After Motion CC+" class="w-12 h-12 rounded-full border-2 border-blue-500 hover:border-blue-700 transition duration-300">
-                </button>
-                <button onclick="redirectTo('https://www.mediafire.com/file/6ulb0hqai2buwcs/After+Effects+°KYUZO°+UNIQUE+(android+11)_3.9.1.apk/file')" class="bg-transparent border-none cursor-pointer">
-                    <img src="https://files.catbox.moe/iehay3.jpeg" alt="After Motion 3.9.1" class="w-12 h-12 rounded-full border-2 border-blue-500 hover:border-blue-700 transition duration-300">
-                </button>
-                <button onclick="redirectTo('https://appstate-getterjonellccproject.onrender.com/')" class="bg-transparent border-none cursor-pointer">
-                    <img src="https://files.catbox.moe/aj94sw.png" alt="Appstate Getter" class="w-12 h-12 rounded-full border-2 border-blue-500 hover:border-blue-700 transition duration-300">
-                </button>
-            </div>
-            <p class="mt-4 text-sm">Hobby</p>
-            <h2 class="text-lg font-semibold">Editing, Geometry Dash Player, Coder</h2>
-            <div class="flex justify-around my-4">
-                <a href="https://www.facebook.com/propertynilove.magallnes" class="social-icon fb" aria-label="Facebook"></a>
-                <a href="https://www.instagram.com/jonelledits10?igsh=YzljYTk1ODg3Zg==" class="social-icon ig" aria-label="Instagram"></a>
-                <a href="https://github.com/magallanes10" class="social-icon gh" aria-label="GitHub"></a>
-                <a href="https://mobile.capcutshare.com/s/Zs8rLcVUR/" class="social-icon capcut" aria-label="CapCut"></a>
-                <a href="https://tiktok.com/@jonell.magallanes10" class="social-icon tiktok" aria-label="TikTok"></a>
-            </div>
-            <div class="my-4">
-                <button onclick="redirectTo('https://m.me/propertynilove.magallnes')" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300">Message</button>
-                <button onclick="redirectTo('/docs.html')" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300">CC PROJECT API</button>
-            </div>
-        </div>
-    </div>
-    <script>
-        function redirectTo(url) {
-            window.location.href = url;
-        }
+<body class="bg-gray-100 font-sans">
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const container = document.getElementById('container');
-            container.classList.remove('opacity-0');
+    <audio autoplay loop>
+        <source src="hhttps://www.cjoint.com/doc/25_03/OCwtzRDhjR1_geometry-dash-cc-content-rgdps-1742671535759.m4a" type="audio/mp3">
+    </audio>
+
+    <header class="bg-white shadow-md fixed w-full z-10 animate__animated animate__fadeInDown">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-gray-800">:></h1>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="#about" class="text-gray-700 hover:text-blue-500">About</a></li>
+                    <li><a href="#education" class="text-gray-700 hover:text-blue-500">Education</a></li>
+                    <li><a href="#skills" class="text-gray-700 hover:text-blue-500">Skills</a></li>
+                    <li><a href="#contact" class="text-gray-700 hover:text-blue-500">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="about" class="relative bg-blue-500 text-white text-center pt-24 pb-32 animate__animated animate__fadeIn">
+        <div id="particles-js"></div>
+        <div class="container mx-auto relative z-10">
+            <img src="https://graph.facebook.com/100036956043695/picture?width=720&height=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662" class="w-24 h-24 rounded-full mx-auto border-4 border-white">
+            <h2 class="text-3xl font-bold mt-4 fade-in">Hello! I'm Jonell Magallanes</h2>
+            <p class="text-lg mt-2 fade-in">Beginner Web Developer & API Enthusiast & Video Editor</p>
+            <button id="api-btn" class="bg-white text-blue-500 px-4 py-2 rounded mt-4 hover:bg-gray-200 transition-all duration-300 fade-in relative">
+                CC Project API
+            </button>
+            <img id="rocket" class="rocket" src="https://files.catbox.moe/dg8a3q.png">
+        </div>
+    </section>
+
+    <section id="education" class="bg-white py-16 text-center slide-up">
+        <div class="container mx-auto">
+            <h2 class="text-2xl font-bold text-blue-600">Education</h2>
+            <p class="text-gray-600">History of Education</p>
+            <div class="mt-6 space-y-4">
+                <div class="bg-gray-200 p-4 shadow-md rounded-md inline-block">
+                    <h3 class="font-semibold text-lg">La Carlota City College Cubay Campus (B.S Agriculture Agronomy)</h3>
+                    <p class="text-sm text-gray-500">Current School</p>
+                </div>
+                <div class="bg-gray-200 p-4 shadow-md rounded-md inline-block">
+                    <h3 class="font-semibold text-lg">San Enrique Polytechnic Academy Inc.</h3>
+                    <p class="text-sm text-gray-500">Graduated</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="bg-gray-200 py-16 text-center slide-up">
+        <div class="container mx-auto">
+            <h2 class="text-2xl font-bold">Skills</h2>
+            <div class="flex justify-center space-x-6 mt-6">
+                <img src="https://cdn-icons-png.flaticon.com/128/732/732212.png" class="w-12">
+                <img src="https://cdn-icons-png.flaticon.com/128/919/919825.png" class="w-12">
+                <img src="https://cdn-icons-png.flaticon.com/128/5968/5968350.png" class="w-12">
+               <img src="https://files.catbox.moe/ewoxu2.jpeg" class="w-12">
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-16 text-center slide-up">
+        <h2 class="text-2xl font-bold">Contact</h2>
+        <p class="text-gray-600">Let's connect on social media!</p>
+        <div class="flex justify-center space-x-6 mt-6">
+            <a href="https://www.facebook.com/propertynilove.magallnes">
+                <img src="https://files.catbox.moe/gl8yme.png" class="w-8">
+            </a>
+            <a href="https://www.instagram.com/jonelledits10">
+                <img src="https://files.catbox.moe/69xtpa.png" class="w-8">
+            </a>
+            <a href="https://github.com/magallanes10">
+                <img src="https://files.catbox.moe/7sg4m9.png" class="w-8">
+            </a>
+                        </a>
+            <a href="https://www.instagram.com/jonelledits10">
+                <img src="https://files.catbox.moe/bibu9z.jpeg" class="w-8">
+                </a>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white text-center py-4">
+        <p>&copy; 2025 Jonell Magallanes. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll('.fade-in, .slide-up').forEach(el => {
+                el.classList.add('visible');
+            });
+
+            particlesJS("particles-js", {
+                "particles": {
+                    "number": { "value": 50, "density": { "enable": true, "value_area": 800 } },
+                    "color": { "value": "#ffffff" },
+                    "shape": { "type": "circle" },
+                    "opacity": { "value": 0.6, "random": true },
+                    "size": { "value": 4, "random": true },
+                    "move": { "enable": true, "speed": 1 }
+                }
+            });
+
+            document.getElementById("api-btn").addEventListener("click", function () {
+                this.innerHTML = "Redirecting...";
+                let rocket = document.getElementById("rocket");
+                rocket.style.opacity = "1";
+                rocket.style.animation = "rocketLaunch 2s forwards";
+                setTimeout(() => { window.location.href = "/docs.html"; }, 2000);
+            });
         });
     </script>
+
 </body>
 
 </html>
