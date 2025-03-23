@@ -14,7 +14,7 @@ module.exports.routes = {
 };
 
 module.exports.onAPI = async (req, res) => {
-    const url = req.originalUrl.split('/api/catmoeurl=')[1];;
+    const url = req.originalUrl.split('/api/catmoe?url=')[1];;
     if (!url) {
         return res.status(400).json({ error: "Missing 'url' parameter" });
     }
