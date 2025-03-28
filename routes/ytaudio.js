@@ -1,6 +1,7 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 const fs = require("fs");
+const path = require("path");
 const { CookieJar } = require("tough-cookie");
 
 module.exports.routes = {
@@ -26,27 +27,31 @@ const headers = {
     "Referrer-Policy": "strict-origin-when-cross-origin",
 };
 
-const cookiesFile = "cookies.txt";
+const cookiesFile = path.join(__dirname, "cookies.txt");
 let cookieHeader = {};
 
 if (fs.existsSync(cookiesFile)) {
-    const cookieJar = new CookieJar();
-    const cookies = fs.readFileSync(cookiesFile, "utf8").split("\n");
+    try {
+        const cookieJar = new CookieJar();
+        const cookies = fs.readFileSync(cookiesFile, "utf8").split("\n");
 
-    cookies.forEach((line) => {
-        if (!line.startsWith("#") && line.trim() !== "") {
-            const parts = line.split("\t");
-            if (parts.length >= 7) {
-                const domain = parts[0];
-                const name = parts[5];
-                const value = parts[6];
-                cookieJar.setCookieSync(`${name}=${value}; Domain=${domain}`, "https://youtube.com");
+        cookies.forEach((line) => {
+            if (!line.startsWith("#") && line.trim() !== "") {
+                const parts = line.split("\t");
+                if (parts.length >= 7) {
+                    const domain = parts[0];
+                    const name = parts[5];
+                    const value = parts[6];
+                    cookieJar.setCookieSync(`${name}=${value}; Domain=${domain}`, "https://youtube.com");
+                }
             }
-        }
-    });
+        });
 
-    const cookieString = cookieJar.getCookieStringSync("https://youtube.com");
-    if (cookieString) cookieHeader = { Cookie: cookieString };
+        const cookieString = cookieJar.getCookieStringSync("https://youtube.com");
+        if (cookieString) cookieHeader = { Cookie: cookieString };
+    } catch (err) {
+        console.error("Error reading cookies.txt:", err.message);
+    }
 }
 
 module.exports.onAPI = async (req, res) => {
