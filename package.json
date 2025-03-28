@@ -53,6 +53,7 @@
     "wikipedia": "^2.1.2",
         "link-preview-js": "^3.0.14",
     "youtube-to-mp3-poji": "^1.0.4",
-    "cloudscraper": "^4.6.0"
+    "cloudscraper": "^4.6.0",
+     "tough-cookie": "^4.1.3"
   }
 }
