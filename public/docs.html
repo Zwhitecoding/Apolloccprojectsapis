@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API EXPLORER - Marjhun Baylon</title>
+    <title>CC API EXPLORER - Marjhun Baylon</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
@@ -57,6 +57,7 @@
             backdrop-filter: blur(12px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.15);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            color: #f9fafb;
         }
         .glossy {
             position: relative;
@@ -89,16 +90,16 @@
 
     <div id="menu" class="hidden fixed top-0 left-0 glass glossy w-64 h-full p-6 overflow-y-auto z-50 slide-out">
         <div class="flex justify-between items-center">
-            <h2 class="text-lg font-semibold text-indigo-400 uppercase">API Categories</h2>
-            <button onclick="toggleMenu()" class="text-gray-300 hover:text-red-500 text-xl">✖</button>
+            <h2 class="text-lg font-bold text-white uppercase">API Categories</h2>
+            <button onclick="toggleMenu()" class="text-gray-100 hover:text-red-500 text-xl">✖</button>
         </div>
-        <div id="api-list" class="space-y-3 mt-4"></div>
+        <div id="api-list" class="space-y-3 mt-4 text-gray-100"></div>
     </div>
 
     <div class="flex flex-col items-center justify-center min-h-screen text-center relative z-10 fade-in">
-        <h1 class="text-4xl font-extrabold text-white shadow-md mb-4">Welcome to API Explorer - Marjhun Baylon</h1>
+        <h1 class="text-4xl font-extrabold text-white shadow-md mb-4">Welcome to CC API Explorer - Marjhun Baylon</h1>
         <div class="glass glossy rounded-lg p-6 w-full max-w-md pop-up">
-            <div id="device-info" class="text-gray-300 text-sm mb-4">
+            <div id="device-info" class="text-gray-100 text-sm mb-4">
                 <p id="user-agent">User Agent: <span>Loading...</span></p>
                 <p id="ip">IP Address: <span>Loading...</span></p>
                 <p id="current-time">Current Time: <span>Loading...</span></p>
