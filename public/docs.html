@@ -3,55 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CC API EXPLORER - Jonell Magallanes</title>
+    <title>API EXPLORER - Marjhun Baylon</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
-        
         .background {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100vh;
-            background: linear-gradient(135deg, #3B82F6, #1E40AF);
+            background: radial-gradient(circle at top, #0f172a, #1e293b 70%);
             overflow: hidden;
             z-index: -1;
         }
-
         .particles {
             position: absolute;
             width: 100%;
             height: 100%;
         }
-
         .particles span {
             position: absolute;
             display: block;
             width: 10px;
             height: 10px;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 50%;
             animation: floatUp 12s linear infinite;
         }
-
         .particles span:nth-child(odd) {
             animation-duration: 15s;
         }
-
         @keyframes floatUp {
             0% { transform: translateY(100vh) scale(1); opacity: 1; }
             100% { transform: translateY(-10vh) scale(0.5); opacity: 0; }
         }
-
-        
         .hidden { display: none; }
         .slide-in { animation: slide-in 0.4s forwards; }
         .slide-out { animation: slide-out 0.4s forwards; }
-
         @keyframes slide-in { from { transform: translateX(-100%); } to { transform: translateX(0); } }
         @keyframes slide-out { from { transform: translateX(0); } to { transform: translateX(-100%); } }
-
         .watermark {
             position: fixed;
             bottom: 10px;
@@ -61,31 +52,53 @@
             font-size: 12px;
             color: white;
         }
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+        .glossy {
+            position: relative;
+            overflow: hidden;
+        }
+        .glossy::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(120deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+            transform: rotate(25deg);
+            animation: shine 8s infinite;
+        }
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(25deg); }
+            100% { transform: translateX(100%) rotate(25deg); }
+        }
     </style>
 </head>
-<body class="bg-gray-100 p-6">
+<body class="bg-gray-900 text-white p-6">
 
     <div class="background">
         <div class="particles"></div>
     </div>
 
-    
-    <button id="toggle-button" onclick="toggleMenu()" class="fixed top-4 left-4 text-white bg-indigo-600 px-3 py-2 rounded-md shadow-lg z-50">☰</button>
+    <button id="toggle-button" onclick="toggleMenu()" class="fixed top-4 left-4 text-white glass px-3 py-2 rounded-md shadow-lg z-50">☰</button>
 
-
-    <div id="menu" class="hidden fixed top-0 left-0 bg-white shadow-xl w-64 h-full p-6 overflow-y-auto z-50 slide-out">
+    <div id="menu" class="hidden fixed top-0 left-0 glass glossy w-64 h-full p-6 overflow-y-auto z-50 slide-out">
         <div class="flex justify-between items-center">
-            <h2 class="text-lg font-semibold text-indigo-600 uppercase">API Categories</h2>
-            <button onclick="toggleMenu()" class="text-gray-600 hover:text-red-500 text-xl">✖</button>
+            <h2 class="text-lg font-semibold text-indigo-400 uppercase">API Categories</h2>
+            <button onclick="toggleMenu()" class="text-gray-300 hover:text-red-500 text-xl">✖</button>
         </div>
         <div id="api-list" class="space-y-3 mt-4"></div>
     </div>
 
-    
     <div class="flex flex-col items-center justify-center min-h-screen text-center relative z-10 fade-in">
-        <h1 class="text-4xl font-extrabold text-white shadow-md mb-4">Welcome to CC API Explorer</h1>
-        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md pop-up">
-            <div id="device-info" class="text-gray-700 text-sm mb-4">
+        <h1 class="text-4xl font-extrabold text-white shadow-md mb-4">Welcome to API Explorer - Marjhun Baylon</h1>
+        <div class="glass glossy rounded-lg p-6 w-full max-w-md pop-up">
+            <div id="device-info" class="text-gray-300 text-sm mb-4">
                 <p id="user-agent">User Agent: <span>Loading...</span></p>
                 <p id="ip">IP Address: <span>Loading...</span></p>
                 <p id="current-time">Current Time: <span>Loading...</span></p>
@@ -94,15 +107,12 @@
         </div>
     </div>
 
-    
-    <div class="watermark">Dev: Jonell Hutchin Magallanes</div>
+    <div class="watermark">Dev: Marjhun Baylon</div>
 
-    
     <script>
         function toggleMenu() {
             const menu = document.getElementById("menu");
             const toggleButton = document.getElementById("toggle-button");
-
             if (menu.classList.contains("hidden")) {
                 menu.classList.remove("hidden", "slide-out");
                 menu.classList.add("slide-in");
@@ -116,8 +126,6 @@
                 }, 400);
             }
         }
-
-        
         document.addEventListener("DOMContentLoaded", function() {
             const particleContainer = document.querySelector(".particles");
             for (let i = 0; i < 15; i++) {
@@ -126,19 +134,16 @@
                 let delay = Math.random() * 10;
                 let positionX = Math.random() * 100;
                 let duration = Math.random() * 10 + 8;
-
                 particle.style.width = `${size}px`;
                 particle.style.height = `${size}px`;
                 particle.style.left = `${positionX}%`;
                 particle.style.animationDelay = `${delay}s`;
                 particle.style.animationDuration = `${duration}s`;
-
                 particleContainer.appendChild(particle);
             }
         });
     </script>
 
     <script src="script.js"></script>
-
 </body>
 </html>
